@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+
+
+    <!-- Leaflet -->
+    <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@0.7.5/dist/leaflet.css" />
+            <script src="https://unpkg.com/leaflet@0.7.5/dist/leaflet.js"></script> -->
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.1/chroma.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body,
+        table,
+        tr,
+        td,
+        th,
+        div,
+        h1,
+        h2,
+        input {
+            font-family: "Calibri", "Trebuchet MS", "Ubuntu", Serif;
+            font-size: 11pt;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* full size */
+        .ctl {
+            padding: 2px 10px 2px 10px;
+            background: white;
+            background: rgba(255, 255, 255, 0);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0);
+            border-radius: 5px;
+            text-align: right;
+        }
+
+        .title {
+            font-size: 18pt;
+            font-weight: bold;
+        }
+
+        .src {
+            font-size: 10pt;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="map"></div>
+    <script src="js/Autolinker.min.js"></script>
+    <script src="data/treecrowns.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.1/chroma.min.js"></script>
+    <script>
+        var autolinker = new Autolinker({ truncate: { length: 30, location: 'smart' } });
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+
+
+        function pop_treecrowns(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + "Tree_Id: " + (feature.properties['fid'] !== null ? autolinker.link(feature.properties['fid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + "Tree_Height: " + (feature.properties['CHMmax'] !== null ? autolinker.link(feature.properties['CHMmax'].toLocaleString()) : 'm') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, { maxHeight: 400 });
+        }
+
+        // function style_treecrowns_0(feature) {
+        //     if (feature.properties['CHMmax'] >= 22 && feature.properties['CHMmax'] <= 100) {
+        //         return {
+        //         pane: 'pane_treecrowns',
+        //         opacity: 1,
+        //         color: 'rgba(0,0,0,0)',
+        //         dashArray: '',
+        //         lineCap: 'square',
+        //         lineJoin: 'bevel',
+        //         weight: 0.0,
+        //         fillOpacity: 100,
+        //         interactive: true,
+        //     }
+        //     }
+        //     if (feature.properties['CHMmax'] >= 17.7 && feature.properties['CHMmax'] <= 22) {
+        //         return {
+        //         pane: 'pane_treecrowns',
+        //         opacity: 1,
+        //         color: 'rgba(0,104,55,1.0)',
+        //         dashArray: '',
+        //         lineCap: 'square',
+        //         lineJoin: 'bevel',
+        //         weight: 4.0,
+        //         fillOpacity: 0,
+        //         interactive: true,
+        //     }
+        //     }
+        //     if (feature.properties['CHMmax'] >= 13.4 && feature.properties['CHMmax'] <= 17.7 ) {
+        //         return {
+        //         pane: 'pane_treecrowns',
+        //         opacity: 1,
+        //         color: 'rgba(49,163,84,1.0)',
+        //         dashArray: '',
+        //         lineCap: 'square',
+        //         lineJoin: 'bevel',
+        //         weight: 4.0,
+        //         fillOpacity: 0,
+        //         interactive: true,
+        //     }
+        //     }
+        //     if (feature.properties['CHMmax'] >= 9.1 && feature.properties['CHMmax'] <= 13.4 ) {
+        //         return {
+        //         pane: 'pane_treecrowns',
+        //         opacity: 1,
+        //         color: 'rgba(120,198,121,1.0)',
+        //         dashArray: '',
+        //         lineCap: 'square',
+        //         lineJoin: 'bevel',
+        //         weight: 4.0,
+        //         fillOpacity: 0,
+        //         interactive: true,
+        //     }
+        //     }
+        //     if (feature.properties['CHMmax'] >= 4.8 && feature.properties['CHMmax'] <= 9.1 ) {
+        //         return {
+        //         pane: 'pane_treecrowns',chm2019
+        //         opacity: 1,
+        //         color: 'rgba(194,230,153,1.0)',
+        //         dashArray: '',
+        //         lineCap: 'square',
+        //         lineJoin: 'bevel',
+        //         weight: 4.0,
+        //         fillOpacity: 0,
+        //         interactive: true,
+        //     }
+        //     }
+        //     if (feature.properties['CHMmax'] >= 0.5 && feature.properties['CHMmax'] <= 4.8 ) {
+        //         return {
+        //         pane: 'pane_treecrowns',
+        //         opacity: 1,
+        //         color: 'rgba(255,255,204,1.0)',
+        //         dashArray: '',
+        //         lineCap: 'square',
+        //         lineJoin: 'bevel',
+        //         weight: 4.0,
+        //         fillOpacity: 0,
+        //         interactive: true,
+        //     }
+        //     }
+        // }
+
+        // var layer_treecrowns = new L.geoJson(json_treecrowns, {
+        //     attribution: '',
+        //     interactive: true,
+        //     dataVar: 'json_treecrowns',
+        //     layerName: 'layer_treecrowns',
+        //     pane: 'pane_treecrowns',
+        //     onEachFeature: pop_treecrowns,
+        //     style: style_treecrowns_0,
+        // });
+
+
+
+
+
+
+        var topo50 = L.tileLayer('https://tiles-cdn.koordinates.com/services;key=d0cf04719f464da4a934794a456f164c/tiles/v4/layer=50767/EPSG:3857/{z}/{x}/{y}.png', {
+            //minZoom: 12, maxZoom: 19,
+            attribution: 'LINZ'
+        })
+
+        var linz_basemap = L.tileLayer('https://basemaps.linz.govt.nz/v1/tiles/aerial/WebMercatorQuad/{z}/{x}/{y}.webp?api=d01gzmgv8r3tnp240nhxwbaq57m', {
+            //minZoom: 12, maxZoom: 19,
+            attribution: 'LINZ'
+        })
+        //  .. White background
+        var white = L.tileLayer("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEX///+nxBvIAAAAH0lEQVQYGe3BAQ0AAADCIPunfg43YAAAAAAAAAAA5wIhAAAB9aK9BAAAAABJRU5ErkJggg==", { minZoom: 12, maxZoom: 19 });
+
+        // Overlay layers (TMS)
+        var chm2013 = L.tileLayer('data/2013_chm/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
+        var chm2019 = L.tileLayer('data/2019_chm/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
+        var chm2021 = L.tileLayer('data/2021_chm/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
+        var dsm_daylight2013 = L.tileLayer('data/2013_dsm_daylight/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
+        var dsm_daylight2019 = L.tileLayer('data/2019_dsm_daylight/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
+        var dsm_daylight2021 = L.tileLayer('data/2021_dsm_daylight/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
+
+
+
+
+        // Map
+        var map = L.map('map', {
+            center: [-41.304918024328785, 174.80778265865325],
+            zoom: 19,
+            minZoom: 12,
+            maxZoom: 19,
+            layers: [chm2013, dsm_daylight2013]
+        });
+
+
+        // Title
+        var title = L.control();
+        title.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'ctl title');
+            this.update();
+            return this._div;
+        };
+        title.update = function (props) {
+            this._div.innerHTML = "Wellington CHM";
+        };
+        title.addTo(map);
+
+        // Note
+        var src = 'TODO!';
+        var title = L.control({ position: 'bottomleft' });
+        title.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'ctl src');
+            this.update();
+            return this._div;
+        };
+        title.update = function (props) {
+            this._div.innerHTML = src;
+        };
+        title.addTo(map);
+        var basemaps = { "Without background": white, "linz_basemap": linz_basemap, "topo50": topo50, }
+        var overlaymaps = { "2013_chm": chm2013, "chm2019": chm2019, "2021_chm": chm2021, "2013_dsm_daylight": dsm_daylight2013, "2019_dsm_daylight": dsm_daylight2019, "2021_dsm_daylight": dsm_daylight2021 }
+
+
+
+
+
+        //L.control.layers(basemaps, overlaymaps, {collapsed: false},  layer_treecrowns, {collapsed: false}).addTo(map);
+        L.control.layers(basemaps, {
+            "2013_dsm_daylight": dsm_daylight2013,
+            "2019_dsm_daylight": dsm_daylight2019,
+            "2021_dsm_daylight": dsm_daylight2021,
+            "2013_chm": chm2013,
+            "2019_chm": chm2019,
+            "2021_chm": chm2021,
+
+        }, {
+            collapsed: false
+        }).addTo(map);
+
+
+        //Fit to overlay bounds (SW and NE points with (lat, lon))
+        // map.fitBounds([[174.74294728943732, -41.36519905946125], [174.9044016679489, -41.25099694114377]]);
+        // map.createPane('pane_treecrowns');
+        // map.getPane('pane_treecrowns').style.zIndex = 401;
+        // map.getPane('pane_treecrowns').style['mix-blend-mode'] = 'normal';
+        // Fit to overlay bounds (SW and NE points with (lat, lon))
+        map.fitBounds([[-41.37711568341858, 174.88589165572714], [-41.232720365239, 174.72967366157934]]);
+    </script>
+
+</body>
+
+</html>
