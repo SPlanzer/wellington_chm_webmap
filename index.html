@@ -62,7 +62,117 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.1/chroma.min.js"></script>
     <script>
         var autolinker = new Autolinker({ truncate: { length: 30, location: 'smart' } });
+        var bounds_group = new L.featureGroup([]);
 
+        function setBounds() {
+        }
+
+
+        function pop_treecrowns(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + "Tree_Id: " + (feature.properties['fid'] !== null ? autolinker.link(feature.properties['fid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + "2013_Tree_Height: " + (feature.properties['2013_max'] !== null ? autolinker.link(feature.properties['2013_max'].toLocaleString()) : 'm') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + "2019_Tree_Height: " + (feature.properties['2019_max'] !== null ? autolinker.link(feature.properties['2019_max'].toLocaleString()) : 'm') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, { maxHeight: 400 });
+        }
+
+        function style_treecrowns_0(feature) {
+            if (feature.properties['2019_max'] >= 22 && feature.properties['2019_max'] <= 100) {
+                return {
+                    pane: 'pane_treecrowns',
+                    opacity: 1,
+                    color: 'rgba(0,0,0,0)',
+                    dashArray: '',
+                    lineCap: 'square',
+                    lineJoin: 'bevel',
+                    weight: 0.0,
+                    fillOpacity: 100,
+                    interactive: true,
+                }
+            }
+            if (feature.properties['2019_max'] >= 17.7 && feature.properties['2019_max'] <= 22) {
+                return {
+                    pane: 'pane_treecrowns',
+                    opacity: 1,
+                    color: 'rgba(0,104,55,1.0)',
+                    dashArray: '',
+                    lineCap: 'square',
+                    lineJoin: 'bevel',
+                    weight: 4.0,
+                    fillOpacity: 0,
+                    interactive: true,
+                }
+            }
+            if (feature.properties['2019_max'] >= 13.4 && feature.properties['2019_max'] <= 17.7) {
+                return {
+                    pane: 'pane_treecrowns',
+                    opacity: 1,
+                    color: 'rgba(49,163,84,1.0)',
+                    dashArray: '',
+                    lineCap: 'square',
+                    lineJoin: 'bevel',
+                    weight: 4.0,
+                    fillOpacity: 0,
+                    interactive: true,
+                }
+            }
+            if (feature.properties['2019_max'] >= 9.1 && feature.properties['2019_max'] <= 13.4) {
+                return {
+                    pane: 'pane_treecrowns',
+                    opacity: 1,
+                    color: 'rgba(120,198,121,1.0)',
+                    dashArray: '',
+                    lineCap: 'square',
+                    lineJoin: 'bevel',
+                    weight: 4.0,
+                    fillOpacity: 0,
+                    interactive: true,
+                }
+            }
+            if (feature.properties['2019_max'] >= 4.8 && feature.properties['2019_max'] <= 9.1) {
+                return {
+                    pane: 'pane_treecrowns',
+                    opacity: 1,
+                    color: 'rgba(194,230,153,1.0)',
+                    dashArray: '',
+                    lineCap: 'square',
+                    lineJoin: 'bevel',
+                    weight: 4.0,
+                    fillOpacity: 0,
+                    interactive: true,
+                }
+            }
+            if (feature.properties['2019_max'] >= 0.5 && feature.properties['2019_max'] <= 4.8) {
+                return {
+                    pane: 'pane_treecrowns',
+                    opacity: 1,
+                    color: 'rgba(255,255,204,1.0)',
+                    dashArray: '',
+                    lineCap: 'square',
+                    lineJoin: 'bevel',
+                    weight: 4.0,
+                    fillOpacity: 0,
+                    interactive: true,
+                }
+            }
+        }
+
+        var layer_treecrowns = new L.geoJson(json_treecrowns, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_treecrowns',
+            layerName: 'layer_treecrowns',
+            pane: 'pane_treecrowns',
+            onEachFeature: pop_treecrowns,
+            style: style_treecrowns_0,
+        });
 
         var topo50 = L.tileLayer('https://tiles-cdn.koordinates.com/services;key=d0cf04719f464da4a934794a456f164c/tiles/v4/layer=50767/EPSG:3857/{z}/{x}/{y}.png', {
             attribution: 'LINZ'
@@ -185,6 +295,7 @@
             "2013_chm": chm2013,
             "2019_chm": chm2019,
             "2021_chm": chm2021,
+            "treecrowns": layer_treecrowns
         }, {
             collapsed: false
         }).addTo(map);
@@ -204,6 +315,9 @@
 
         map.fitBounds([[-41.37711568341858, 174.88589165572714], [-41.232720365239, 174.72967366157934]]);
         map2.fitBounds([[-41.37711568341858, 174.88589165572714], [-41.232720365239, 174.72967366157934]]);
+        map.createPane('pane_treecrowns');
+        map.getPane('pane_treecrowns').style.zIndex = 401;
+        map.getPane('pane_treecrowns').style['mix-blend-mode'] = 'normal';
     </script>
 
 </body>
