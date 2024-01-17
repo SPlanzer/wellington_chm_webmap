@@ -74,17 +74,31 @@
 
         var white = L.tileLayer("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEX///+nxBvIAAAAH0lEQVQYGe3BAQ0AAADCIPunfg43YAAAAAAAAAAA5wIhAAAB9aK9BAAAAABJRU5ErkJggg==", { minZoom: 12, maxZoom: 19 });
 
+
+        var topo50_2 = L.tileLayer('https://tiles-cdn.koordinates.com/services;key=d0cf04719f464da4a934794a456f164c/tiles/v4/layer=50767/EPSG:3857/{z}/{x}/{y}.png', {
+            attribution: 'LINZ'
+        });
+
+        var linz_basemap_2 = L.tileLayer('https://basemaps.linz.govt.nz/v1/tiles/aerial/WebMercatorQuad/{z}/{x}/{y}.webp?api=d01gzmgv8r3tnp240nhxwbaq57m', {
+            attribution: 'LINZ'
+        });
+
+
+        var white_2 = L.tileLayer("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEX///+nxBvIAAAAH0lEQVQYGe3BAQ0AAADCIPunfg43YAAAAAAAAAAA5wIhAAAB9aK9BAAAAABJRU5ErkJggg==", { minZoom: 12, maxZoom: 19 });
+
         // Overlay layers (TMS)
-        var chm2013 = L.tileLayer('data/2013_chm/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
-        var chm2019 = L.tileLayer('data/2019_chm/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
+        var chm2013 = L.tileLayer('data/2013_chm_1m/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
+        var chm2019 = L.tileLayer('data/2019_chm_1m/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
         var chm2021 = L.tileLayer('data/2021_chm/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
+        var chm201319diff = L.tileLayer('data/2013_2019_diff/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
         var dsm_daylight2013 = L.tileLayer('data/2013_dsm_daylight/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
         var dsm_daylight2019 = L.tileLayer('data/2019_dsm_daylight/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
         var dsm_daylight2021 = L.tileLayer('data/2021_dsm_daylight/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
         // keep layers sperate between maps
-        var chm2013_2 = L.tileLayer('data/2013_chm/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
-        var chm2019_2 = L.tileLayer('data/2019_chm/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
+        var chm2013_2 = L.tileLayer('data/2013_chm_1m/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
+        var chm2019_2 = L.tileLayer('data/2019_chm_1m/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
         var chm2021_2 = L.tileLayer('data/2021_chm/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
+        var chm201319diff_2 = L.tileLayer('data/2013_2019_diff/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
         var dsm_daylight2013_2 = L.tileLayer('data/2013_dsm_daylight/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
         var dsm_daylight2019_2 = L.tileLayer('data/2019_dsm_daylight/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
         var dsm_daylight2021_2 = L.tileLayer('data/2021_dsm_daylight/{z}/{x}/{y}.png', { tms: 1, opacity: 0.7, attribution: "", minZoom: 12, maxZoom: 19 });
@@ -160,12 +174,14 @@
         srcControl2.addTo(map2);
 
         var basemaps = { "Without background": white, "linz_basemap": linz_basemap, "topo50": topo50, };
+        var basemaps_2 = { "Without background": white_2, "linz_basemap": linz_basemap_2, "topo50": topo50_2, };
 
 
         L.control.layers(basemaps, {
             "2013_dsm_daylight": dsm_daylight2013,
             "2019_dsm_daylight": dsm_daylight2019,
             "2021_dsm_daylight": dsm_daylight2021,
+            "chm201319diff": chm201319diff,
             "2013_chm": chm2013,
             "2019_chm": chm2019,
             "2021_chm": chm2021,
@@ -173,10 +189,11 @@
             collapsed: false
         }).addTo(map);
 
-        L.control.layers(basemaps, {
+        L.control.layers(basemaps_2, {
             "2013_dsm_daylight": dsm_daylight2013_2,
             "2019_dsm_daylight": dsm_daylight2019_2,
             "2021_dsm_daylight": dsm_daylight2021_2,
+            "chm_2013_2019_diff": chm201319diff_2,
             "2013_chm": chm2013_2,
             "2019_chm": chm2019_2,
             "2021_chm": chm2021_2,
