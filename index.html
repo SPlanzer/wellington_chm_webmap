@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+    <title>Wellington CHM</title>
 
     <!-- Leaflet -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
@@ -175,22 +176,22 @@
         });
 
         var topo50 = L.tileLayer('https://tiles-cdn.koordinates.com/services;key=d0cf04719f464da4a934794a456f164c/tiles/v4/layer=50767/EPSG:3857/{z}/{x}/{y}.png', {
-            attribution: 'LINZ'
+            attribution: 'LINZ', minZoom: 12, maxZoom: 19
         });
 
         var linz_basemap = L.tileLayer('https://basemaps.linz.govt.nz/v1/tiles/aerial/WebMercatorQuad/{z}/{x}/{y}.webp?api=d01gzmgv8r3tnp240nhxwbaq57m', {
-            attribution: 'LINZ'
+            attribution: 'LINZ', minZoom: 12, maxZoom: 19
         });
 
         var white = L.tileLayer("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEX///+nxBvIAAAAH0lEQVQYGe3BAQ0AAADCIPunfg43YAAAAAAAAAAA5wIhAAAB9aK9BAAAAABJRU5ErkJggg==", { minZoom: 12, maxZoom: 19 });
 
 
         var topo50_2 = L.tileLayer('https://tiles-cdn.koordinates.com/services;key=d0cf04719f464da4a934794a456f164c/tiles/v4/layer=50767/EPSG:3857/{z}/{x}/{y}.png', {
-            attribution: 'LINZ'
+            attribution: 'LINZ', minZoom: 12, maxZoom: 19
         });
 
         var linz_basemap_2 = L.tileLayer('https://basemaps.linz.govt.nz/v1/tiles/aerial/WebMercatorQuad/{z}/{x}/{y}.webp?api=d01gzmgv8r3tnp240nhxwbaq57m', {
-            attribution: 'LINZ'
+            attribution: 'LINZ', minZoom: 12, maxZoom: 19
         });
 
 
@@ -222,6 +223,8 @@
             layers: [chm2013, dsm_daylight2013]
         });
 
+        map.options.title = "CHM Map 1";
+
         // Map 2
         var map2 = L.map('map2', {
             center: [-41.304918024328785, 174.80778265865325],
@@ -230,6 +233,8 @@
             maxZoom: 19,
             layers: [chm2019_2, dsm_daylight2019_2]
         });
+
+        map2.options.title = "CHM Map 2";
 
         map.sync(map2);
         map2.sync(map);
@@ -260,56 +265,50 @@
         };
         title2.addTo(map2);
 
-        var src = 'TODO!';
-        var srcControl = L.control({ position: 'bottomleft' });
-        srcControl.onAdd = function (map) {
-            this._div = L.DomUtil.create('div', 'ctl src');
-            this.update();
-            return this._div;
-        };
-        srcControl.update = function (props) {
-            this._div.innerHTML = src;
-        };
-        srcControl.addTo(map);
+        // var src = 'TODO';
+        // var srcControl = L.control({ position: 'bottomleft' });
+        // srcControl.onAdd = function (map) {
+        //     this._div = L.DomUtil.create('div', 'ctl src');
+        //     this.update();
+        //     return this._div;
+        // };
+        // srcControl.update = function (props) {
+        //     this._div.innerHTML = src;
+        // };
+        // srcControl.addTo(map);
 
-        var srcControl2 = L.control({ position: 'bottomleft' });
-        srcControl2.onAdd = function (map) {
-            this._div = L.DomUtil.create('div', 'ctl src');
-            this.update();
-            return this._div;
-        };
-        srcControl2.update = function (props) {
-            this._div.innerHTML = src;
-        };
-        srcControl2.addTo(map2);
+        var credits = L.control.attribution().addTo(map);
+        credits.addAttribution('© <a href="//www.linz.govt.nz/linz-copyright">LINZ CC BY 4.0</a> © <a href="//www.linz.govt.nz/data/linz-data/linz-basemaps/data-attribution">Imagery Basemap contributors</a>');
+
 
         var basemaps = { "Without background": white, "linz_basemap": linz_basemap, "topo50": topo50, };
         var basemaps_2 = { "Without background": white_2, "linz_basemap": linz_basemap_2, "topo50": topo50_2, };
 
 
         L.control.layers(basemaps, {
-            "2013_dsm_daylight": dsm_daylight2013,
-            "2019_dsm_daylight": dsm_daylight2019,
-            "2021_dsm_daylight": dsm_daylight2021,
-            "chm201319diff": chm201319diff,
-            "2013_chm": chm2013,
-            "2019_chm": chm2019,
-            "2021_chm": chm2021,
-            "Zealandia_treecrowns": layer_treecrowns
+            "2013 DSM daylight": dsm_daylight2013,
+            "2019 DSM daylight": dsm_daylight2019,
+            "2021 DSM daylight": dsm_daylight2021,
+            "2013 2019 CHM diff": chm201319diff,
+            "2013 CHM": chm2013,
+            "2019 CHM": chm2019,
+            "2021 CHM": chm2021,
+            "Zealandia Crowns": layer_treecrowns
         }, {
-            collapsed: false
+            collapsed: true
         }).addTo(map);
 
         L.control.layers(basemaps_2, {
-            "2013_dsm_daylight": dsm_daylight2013_2,
-            "2019_dsm_daylight": dsm_daylight2019_2,
-            "2021_dsm_daylight": dsm_daylight2021_2,
-            "chm_2013_2019_diff": chm201319diff_2,
-            "2013_chm": chm2013_2,
-            "2019_chm": chm2019_2,
-            "2021_chm": chm2021_2,
+
+            "2013 DSM daylight": dsm_daylight2013_2,
+            "2019 DSM daylight": dsm_daylight2019_2,
+            "2021 DSM daylight": dsm_daylight2021_2,
+            "2013 2019 CHM diff": chm201319diff_2,
+            "2013 CHM": chm2013_2,
+            "2019 CHM": chm2019_2,
+            "2021 CHM": chm2021_2,
         }, {
-            collapsed: false
+            collapsed: true
         }).addTo(map2);
 
 
