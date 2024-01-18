@@ -183,6 +183,10 @@
             attribution: 'LINZ', minZoom: 12, maxZoom: 19
         });
 
+        var imagery_2017 = L.tileLayer('https://basemaps.linz.govt.nz/v1/tiles/wellington-urban-2017-0.1m/WebMercatorQuad/{z}/{x}/{y}.webp?api=d01gzmgv8r3tnp240nhxwbaq57m', {
+            attribution: 'LINZ', minZoom: 12, maxZoom: 19
+        });
+
         var white = L.tileLayer("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEX///+nxBvIAAAAH0lEQVQYGe3BAQ0AAADCIPunfg43YAAAAAAAAAAA5wIhAAAB9aK9BAAAAABJRU5ErkJggg==", { minZoom: 12, maxZoom: 19 });
 
 
@@ -194,6 +198,9 @@
             attribution: 'LINZ', minZoom: 12, maxZoom: 19
         });
 
+        var imagery_2017_2 = L.tileLayer('https://basemaps.linz.govt.nz/v1/tiles/wellington-urban-2017-0.1m/WebMercatorQuad/{z}/{x}/{y}.webp?api=d01gzmgv8r3tnp240nhxwbaq57m', {
+            attribution: 'LINZ', minZoom: 12, maxZoom: 19
+        });
 
         var white_2 = L.tileLayer("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEX///+nxBvIAAAAH0lEQVQYGe3BAQ0AAADCIPunfg43YAAAAAAAAAAA5wIhAAAB9aK9BAAAAABJRU5ErkJggg==", { minZoom: 12, maxZoom: 19 });
 
@@ -281,8 +288,8 @@
         credits.addAttribution('© <a href="//www.linz.govt.nz/linz-copyright">LINZ CC BY 4.0</a> © <a href="//www.linz.govt.nz/data/linz-data/linz-basemaps/data-attribution">Imagery Basemap contributors</a>');
 
 
-        var basemaps = { "Without background": white, "linz_basemap": linz_basemap, "topo50": topo50, };
-        var basemaps_2 = { "Without background": white_2, "linz_basemap": linz_basemap_2, "topo50": topo50_2, };
+        var basemaps = { "Without background": white, "linz_basemap": linz_basemap, "imagery_2017": imagery_2017, "topo50": topo50, };
+        var basemaps_2 = { "Without background": white_2, "linz_basemap": linz_basemap_2, "imagery_2017": imagery_2017_2, "topo50": topo50_2, };
 
 
         L.control.layers(basemaps, {
@@ -293,7 +300,7 @@
             "2013 CHM": chm2013,
             "2019 CHM": chm2019,
             "2021 CHM": chm2021,
-            "Zealandia Crowns (2018)": layer_treecrowns
+            "Zealandia Crowns (2017)": layer_treecrowns
         }, {
             collapsed: true
         }).addTo(map);
