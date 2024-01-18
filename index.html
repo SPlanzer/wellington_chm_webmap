@@ -89,12 +89,12 @@
                 return {
                     pane: 'pane_treecrowns',
                     opacity: 1,
-                    color: 'rgba(0,0,0,0)',
+                    color: 'rgba(18,64,42,1.0)',
                     dashArray: '',
                     lineCap: 'square',
                     lineJoin: 'bevel',
-                    weight: 0.0,
-                    fillOpacity: 100,
+                    weight: 4.0,
+                    fillOpacity: 0,
                     interactive: true,
                 }
             }
@@ -277,7 +277,7 @@
         // };
         // srcControl.addTo(map);
 
-        var credits = L.control.attribution().addTo(map);
+        var credits = L.control.attribution().addTo(map2);
         credits.addAttribution('© <a href="//www.linz.govt.nz/linz-copyright">LINZ CC BY 4.0</a> © <a href="//www.linz.govt.nz/data/linz-data/linz-basemaps/data-attribution">Imagery Basemap contributors</a>');
 
 
@@ -293,7 +293,7 @@
             "2013 CHM": chm2013,
             "2019 CHM": chm2019,
             "2021 CHM": chm2021,
-            "Zealandia Crowns": layer_treecrowns
+            "Zealandia Crowns (2018)": layer_treecrowns
         }, {
             collapsed: true
         }).addTo(map);
